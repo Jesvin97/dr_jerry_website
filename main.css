@@ -300,3 +300,9 @@ html:not(.fx) .panel.has-img .portrait { margin: 0; max-width: none; }
 .note { font-size: 0.92rem; color: var(--mute); }
 .fx #contact .places { gap: 0.7rem; }
 .fx #contact .places { margin-top: 1.3rem; }
+
+/* header: section links, then the two other pages */
+#nav .page-link.first { margin-left: 0.4rem; padding-left: 1.4rem; border-left: 1px solid var(--line); }
+#nav .page-link a { color: var(--fg); font-weight: 500; }
+@media (max-width: 1250px) { #nav .page-link.first { padding-left: 1rem; } }
+@media (max-width: 699px) { html:not(.fx) #nav .page-link.first { margin-left: 0; padding-left: 1.5rem; } }

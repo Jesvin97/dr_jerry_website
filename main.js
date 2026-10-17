@@ -45,6 +45,7 @@ if ( fx ) {
 	lenis = new Lenis( { lerp: 0.08, smoothWheel: true } );
 	const limit = () => document.documentElement.scrollHeight - innerHeight;
 	buildNav( $( 'nav' ), { fx, onGo: s => lenis.scrollTo( s.anchor * limit(), { duration: 1.6 } ) } );
+	document.querySelector( '.brand' ).addEventListener( 'click', e => { e.preventDefault(); lenis.scrollTo( 0, { duration: 1.6 } ); } ); // name = back to the top
 	const update = createUpdater( { ...built, nav: $( 'nav' ), bar: $( 'progress' ) } );
 
 	let last = - 1;

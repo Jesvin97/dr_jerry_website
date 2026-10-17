@@ -223,10 +223,10 @@ export const contact = {
 
 // Scroll narrative (progress 0..1). from/to = fully visible range of the text panel; anchor = nav target.
 export const scenes = [
-	{ id: 'intro', label: 'Intro', from: 0, to: 0.1, anchor: 0 },
+	{ id: 'intro', label: null, from: 0, to: 0.1, anchor: 0 },
 	{ id: 'about', label: 'Journey', from: 0.14, to: 0.24, anchor: 0.19 },
 	{ id: 'experience', label: 'Career', from: 0.28, to: 0.38, anchor: 0.33 },
-	{ id: 'dashboard', label: 'Numbers', from: 0.42, to: 0.5, anchor: 0.46 },
+	{ id: 'dashboard', label: null, from: 0.42, to: 0.5, anchor: 0.46 },
 	{ id: 'expertise', label: 'Expertise', from: 0.54, to: 0.62, anchor: 0.58 },
 	{ id: 'recognition', label: 'Recognition', from: 0.66, to: 0.74, anchor: 0.7 },
 	{ id: 'transition', label: null, from: 0.78, to: 0.82, anchor: 0.8 },

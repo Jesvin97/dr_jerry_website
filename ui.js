@@ -170,8 +170,12 @@ export function buildStory( story, { fx, onDialog } ) {
 
 export function buildNav( nav, { fx, onGo } ) {
 
-	nav.replaceChildren( ...scenes.filter( s => s.label ).map( s => h( 'li', {},
-		h( 'a', { href: `#${s.id}`, 'data-scene': s.id, onclick: e => { if ( fx ) { e.preventDefault(); onGo( s ); } } }, s.label ) ) ) );
+	const sections = scenes.filter( s => s.label ).map( s => h( 'li', {},
+		h( 'a', { href: `#${s.id}`, 'data-scene': s.id, onclick: e => { if ( fx ) { e.preventDefault(); onGo( s ); } } }, s.label ) ) );
+	// The two other pages live in the header too, set apart from the in-page sections.
+	const pages = [ [ 'treatments.html', 'Treatments and clinics' ], [ 'service.html', 'Public service and vision' ] ].map( ( [ href, label ], i ) =>
+		h( 'li', { class: i ? 'page-link' : 'page-link first' }, h( 'a', { href }, label ) ) );
+	nav.replaceChildren( ...sections, ...pages );
 
 }
 
