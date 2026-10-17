@@ -1,4 +1,4 @@
-﻿# Dr. Jerry Mathew: portfolio website
+# Dr. Jerry Mathew: portfolio website
 
 A scroll-driven portfolio. Desktop windows get a cinematic Three.js film (layered portrait cut-outs, wipes between shots, line-by-line text reveals). Phones and small windows get a simpler stacked layout. Two extra pages: `treatments.html` and `service.html`.
 
@@ -18,7 +18,3 @@ Everything editable is in `content.js`: profile text, experience, stats, treatme
 - `timeline.js`: scroll progress to composition
 - `ui.js`, `main.js`, `page.js`: DOM, scene control, secondary pages
 - `main.css`, `page.css`: styles
-
-## Deploy
-
-Static hosting works as is. For Cloudflare Pages, set the build output directory to `/` (no build command).
