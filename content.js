@@ -203,7 +203,12 @@ export const secondary = { label: 'Visit the JANANI website', href: 'https://myj
 
 export const contact = {
 	heading: 'Book an appointment.',
-	text: 'St. Thomas Mission Hospital, Kattanam (Mon to Sat, 9:00 AM to 1:00 PM) · Sunrise Hospital, Kochi (robotic knee clinics, by appointment) · Mount Zion Institute of Medical Sciences. Video consultation also available.',
+	places: [
+		{ name: 'St. Thomas Mission Hospital, Kattanam', detail: 'Alappuzha, Kerala 690503', hours: 'Mon to Sat, 9:00 AM to 1:00 PM' },
+		{ name: 'Sunrise Hospital, Kochi', detail: 'Robotic knee clinics', hours: 'By appointment' },
+		{ name: 'Mount Zion Institute of Medical Sciences', detail: 'Department of Orthopaedics', hours: '' },
+	],
+	note: 'Video consultation is also available.',
 	email: 'drjerryortho@gmail.com',
 	phone: '+91 85909 36816',
 	links: [

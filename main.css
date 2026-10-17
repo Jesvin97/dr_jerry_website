@@ -291,3 +291,12 @@ html:not(.fx) .panel.has-img .portrait { margin: 0; max-width: none; }
 	html:not(.fx) .panel.has-img h1 { font-size: clamp(2.8rem, 5vw, 4.6rem); }
 	html:not(.fx) .panel.has-img .portrait img { max-height: 34rem; width: auto; margin-inline: auto; display: block; }
 }
+
+/* contact: one entry per location */
+.places { list-style: none; display: grid; gap: 0.9rem; margin-top: 1.1rem; }
+.places li { padding-left: 1rem; border-left: 2px solid var(--accent); }
+.places strong { display: block; font: 500 1.08rem/1.25 var(--serif); }
+.places span { font-size: 0.92rem; color: var(--mute); }
+.note { font-size: 0.92rem; color: var(--mute); }
+.fx #contact .places { gap: 0.7rem; }
+.fx #contact .places { margin-top: 1.3rem; }
