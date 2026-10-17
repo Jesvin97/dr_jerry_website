@@ -9,4 +9,4 @@ class NoCache(SimpleHTTPRequestHandler):
         super().end_headers()
 
 
-ThreadingHTTPServer(("", int(sys.argv[1]) if len(sys.argv) > 1 else 8000), NoCache).serve_forever()
+ThreadingHTTPServer(("127.0.0.1", int(sys.argv[1]) if len(sys.argv) > 1 else 8000), NoCache).serve_forever()
