@@ -1,0 +1,27 @@
+# Dr. Jerry Mathew
+
+> Orthopaedic surgeon and public leader in Kattanam, Kerala, India. Joint replacement, robotic knee surgery, arthroscopy and sports medicine, trauma, shoulder and spine care. Executive Chairman of JANANI and National Director of the Dr. APJ Abdul Kalam International Foundation.
+
+The home page is a scroll-driven 3D experience that renders with JavaScript, so this file summarises the content in plain text. The content follows the personal website of Dr. Jerry Mathew.
+
+## Pages
+
+- [Home](https://drjerrywebsite.vercel.app/): introduction, career, clinical numbers, recognition and press, community impact, contact
+- [Treatments and clinics](https://drjerrywebsite.vercel.app/treatments.html): joint reconstruction and replacement, robotic knee replacement, arthroscopy and sports medicine, trauma and complex fracture surgery, advanced shoulder surgery, comprehensive spine care
+- [Public service and vision](https://drjerrywebsite.vercel.app/service.html): public policy and healthcare reform, youth development, women's empowerment, Manipur peace outreach, Vision for India, community initiatives
+
+## Key facts
+
+- More than 18,000 bone operations; 26,000+ patients treated; 18+ years of experience; 120+ medical camps; 6+ states served
+- Director, St. Thomas Mission Hospital, Kattanam; Associate Professor of Orthopaedics, Mount Zion Institute of Medical Sciences; Head of Orthopaedics, Sunrise Hospital, Kochi
+- Executive Chairman, JANANI (mobile health clinics, paediatric screenings, maternal nutrition support): https://myjanani.in
+- National Director, Dr. APJ Abdul Kalam International Foundation
+- Brand Ambassador for Y20 India; National Advisor to the Human Rights Protection Mission
+- Awards: Ram Vilas Paswan Award, Gandhi Award of Peace, Icon of the Year Award, Prem Nazir Karunya Shreshta
+- Manipur peace outreach with the Kerala Council of Churches and the World Council of Churches: 47 Kuki students relocated to Thiruvalla, Kerala, and supported in resuming their education
+
+## Contact
+
+- Primary location: St. Thomas Mission Hospital, Kattanam, Alappuzha, Kerala 690503
+- Email: drjerryortho@gmail.com
+- Phone and WhatsApp: +91 85909 36816

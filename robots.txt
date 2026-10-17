@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Add after the domain is known:
-# Sitemap: https://YOUR-DOMAIN/sitemap.xml
+Sitemap: https://drjerrywebsite.vercel.app/sitemap.xml
