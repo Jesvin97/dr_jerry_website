@@ -1,0 +1,11 @@
+# third-party agent skills and local tooling
+.agents/
+.claude/
+skills-lock.json
+# build output and caches
+dist/
+__pycache__/
+*.pyc
+# original uncropped phone photos (only the cut-outs are used by the site)
+public/images/portrait/WhatsApp*
+public/images/portrait/*.webp
