@@ -238,7 +238,7 @@ export function createUpdater( { panelEls, projectEls, nav, bar } ) {
 				}
 
 			}
-			if ( p >= s.from - 0.04 && s.label ) current = s;
+			if ( p >= s.from - 0.015 && s.label ) current = s;
 
 		}
 		links.forEach( a => a.toggleAttribute( 'aria-current', a.dataset.scene === current.id ) );

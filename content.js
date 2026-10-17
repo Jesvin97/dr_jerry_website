@@ -66,7 +66,7 @@ export const recognitionPanel = {
 export const projects = [
 	{
 		name: 'JANANI',
-		year: 'Flagship campaign',
+		year: 'Flagship project',
 		summary: 'Mobile health clinics, paediatric screenings and maternal nutrition support in marginalised communities.',
 		details: [ 'JANANI is the flagship campaign led by Dr. Jerry Mathew as Executive Chairman: mobile health clinics, paediatric screenings and maternal nutrition support for marginalised communities across Kerala.' ],
 		role: 'Executive Chairman',
@@ -90,10 +90,10 @@ export const projects = [
 	},
 	{
 		name: 'Camps and disaster relief',
-		year: 'Community service',
+		year: 'Medical relief and disaster response',
 		summary: 'Kaithang and diagnostic mega-camps with free reconstructive surgery, and Operation Toofan Relief for flood victims.',
 		details: [ 'Mega-camps with advanced scans, orthopaedic aid and free reconstructive surgery for accident victims and low-income patients, and Operation Toofan Relief: medical rescue, emergency camps and relief kits for flood and disaster victims.' ],
-		role: 'Surgeon and organiser',
+		role: 'Coordinating and leading the camps and relief work',
 		figure: { value: '120+', label: 'medical camps conducted' },
 		tech: [ 'Surgical camps', 'Diagnostics', 'Disaster relief' ],
 		media: { image: null, video: null },
@@ -103,12 +103,12 @@ export const projects = [
 	},
 	{
 		name: 'Manipur peace outreach',
-		year: 'Peace and humanitarian',
+		year: 'Special peace mission',
 		summary: 'Medical supplies, community peace pacts and the relocation of 47 Kuki students to Thiruvalla, where they resumed their education.',
-		details: [ 'Under the Kerala Council of Churches and the World Council of Churches, Dr. Mathew delivered medical supplies to Manipur, helped form community peace pacts, and relocated 47 Kuki students to Thiruvalla, Kerala, where they re-enrolled and continued their education.' ],
-		role: 'Humanitarian delegate',
+		details: [ 'Under the Kerala Council of Churches and the World Council of Churches, Dr. Mathew entered conflict-torn Manipur zones (including Churachandpur and Kangpokpi) to organise medical supplies, formulate community peace pacts, and safely relocate 47 Kuki students to Thiruvalla, Kerala, where they re-enrolled and continued their education.' ],
+		role: 'Under the Kerala Council of Churches and World Council of Churches',
 		figure: { value: '47', label: 'students re-enrolled and supported' },
-		tech: [ '47 students supported', 'Medical aid', 'Peace building' ],
+		tech: [ 'Medical supplies', 'Peace pacts', 'Student relocation' ],
 		media: { image: null, video: null },
 		live: null,
 		repo: null,
