@@ -261,16 +261,28 @@ html:not(.fx) .brand { display: inline-block; padding: 0.7rem 0; }
 html:not(.fx) .text-link, html:not(.fx) .more a, html:not(.fx) .links a, html:not(.fx) .lede a { display: inline-block; padding: 0.75rem 0; }
 html:not(.fx) .more { display: flex; flex-wrap: wrap; gap: 0 1.2rem; }
 
-/* phone menu: a scrollable strip of section links under the brand */
+/* phone menu: brand on the left, a menu button on the right, section links drop down below */
+.menu-btn { display: none; }
 @media (max-width: 699px) {
-	html:not(.fx) #bar { flex-wrap: wrap; max-height: none; gap: 0 1rem; padding-bottom: 0; }
-	html:not(.fx) #bar nav { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; }
-	html:not(.fx) #nav { display: flex; gap: 1.5rem; white-space: nowrap; }
-	html:not(.fx) #nav a { display: inline-block; padding: 0.7rem 0; font-size: 0.9rem; }
-	html:not(.fx) #story { padding-top: 9rem; }
+	html:not(.fx) #bar { flex-wrap: wrap; max-height: none; gap: 0 1rem; padding-top: 0.4rem; padding-bottom: 0.4rem; }
+	html:not(.fx) #bar { background: var(--bg); }
+	html:not(.fx) .brand { padding: 0.5rem 0; }
+	.menu-btn { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; width: 2.75rem; height: 2.75rem; padding: 0 0.7rem; border: 0; margin-right: -0.7rem; }
+	.menu-btn span { display: block; height: 2px; background: var(--fg); transition: transform 0.2s, opacity 0.2s; }
+	#bar.open .menu-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+	#bar.open .menu-btn span:nth-child(2) { opacity: 0; }
+	#bar.open .menu-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+	html:not(.fx) #bar nav { display: none; order: 3; width: 100%; }
+	html:not(.fx) #bar.open nav { display: block; }
+	html:not(.fx) #nav { display: flex; flex-direction: column; gap: 0; }
+	html:not(.fx) #nav li + li { border-top: 1px solid var(--line); }
+	html:not(.fx) #nav a { display: block; padding: 0.85rem 0; font-size: 1rem; }
+	body.page #nav li:first-child { display: none; } /* "Home": the brand name is the home link */
+	html:not(.fx) #story { padding-top: 6rem; }
+	body.page #story { padding-top: 6rem; }
 }
 
-html:not(.fx) .panel { scroll-margin-top: 8rem; } /* anchors land below the fixed header */
+html:not(.fx) .panel { scroll-margin-top: 5rem; } /* anchors land below the fixed header */
 
 /* plain version: portrait beside the text, alternating sides */
 html:not(.fx) .panel.has-img { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: center; }

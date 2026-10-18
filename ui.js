@@ -175,8 +175,25 @@ export function buildStory( story, { fx, onDialog } ) {
 
 export function buildNav( nav, { fx, onGo } ) {
 
-	nav.replaceChildren( ...scenes.filter( s => s.label ).map( s => h( 'li', {},
+	nav.replaceChildren( ...scenes.filter( s => s.label && ( fx || s.id !== 'intro' ) ).map( // the plain version has no Intro link: the brand name is the home button
+		 s => h( 'li', {},
 		h( 'a', { href: `#${s.id}`, 'data-scene': s.id, onclick: e => { if ( fx ) { e.preventDefault(); onGo( s ); } } }, s.label ) ) ) );
+
+}
+
+// Phone header: the section links collapse behind a menu button (CSS shows the button only on narrow screens).
+export function initMenu() {
+
+	const bar = document.getElementById( 'bar' ), nav = bar.querySelector( 'nav' );
+	nav.id = 'menu';
+	const btn = h( 'button', { type: 'button', class: 'menu-btn', 'aria-expanded': 'false', 'aria-controls': 'menu', 'aria-label': 'Menu' }, h( 'span' ), h( 'span' ), h( 'span' ) );
+	const set = open => { bar.classList.toggle( 'open', open ); btn.setAttribute( 'aria-expanded', String( open ) ); };
+	btn.addEventListener( 'click', () => set( ! bar.classList.contains( 'open' ) ) );
+	nav.addEventListener( 'click', e => { if ( e.target.closest( 'a' ) ) set( false ); } );
+	document.addEventListener( 'click', e => { if ( ! bar.contains( e.target ) ) set( false ); } );
+	document.addEventListener( 'keydown', e => { if ( e.key === 'Escape' && bar.classList.contains( 'open' ) ) { set( false ); btn.focus(); } } );
+	matchMedia( '(min-width: 700px)' ).addEventListener( 'change', e => { if ( e.matches ) set( false ); } );
+	bar.insertBefore( btn, nav );
 
 }
 

@@ -1,6 +1,6 @@
 import { profile, portrait, projects, appointment, scenes, WORK_RANGE } from './content.js';
 import { sampleShot, waypointIndex } from './timeline.js';
-import { buildStory, buildNav, buildExtras, initBooking, runCounters, createUpdater } from './ui.js';
+import { buildStory, buildNav, buildExtras, initBooking, initMenu, runCounters, createUpdater } from './ui.js';
 
 const $ = id => document.getElementById( id );
 const root = document.documentElement;
@@ -86,6 +86,7 @@ if ( fx ) {
 } else {
 
 	buildNav( $( 'nav' ), { fx } );
+	initMenu();
 	on( window, 'resize', () => { if ( canFx() ) location.reload(); } );
 
 }
