@@ -60,15 +60,15 @@ export function buildStory( story, { fx, onDialog } ) {
 	dialog.addEventListener( 'close', () => onDialog( false ) );
 	const openCase = p => {
 
-		dialog.replaceChildren(
+		dialog.replaceChildren( ...[
 			h( 'button', { class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
 			h( 'p', { class: 'eyebrow' }, p.year ),
 			h( 'h3', { id: 'case-h' }, p.name ),
 			p.media.image && h( 'div', { class: 'media' }, safeImg( p.media.image, () => projectCanvas( projects.indexOf( p ), p.name ), `${p.name} photo` ) ),
-			p.details.map( t => h( 'p', {}, t ) ),
+			...p.details.map( t => h( 'p', {}, t ) ),
 			h( 'dl', {}, h( 'dt', {}, 'Role' ), h( 'dd', {}, p.role ), h( 'dt', {}, 'Focus' ), h( 'dd', {}, p.tech.join( ', ' ) ) ),
 			projectLinks( p )
-		);
+		].filter( Boolean ) ); // replaceChildren doesn't flatten arrays or skip null
 		onDialog( true );
 		dialog.showModal();
 
