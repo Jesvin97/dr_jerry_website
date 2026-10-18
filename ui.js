@@ -287,7 +287,7 @@ export function buildExtras( { appointment } ) {
 
 // Booking popup: posts the visitor's details to /api/book (saved in the database) and confirms in place.
 // Every a[data-book] opens it; without JS those links still go straight to WhatsApp.
-export function initBooking( { appointment, onDialog = () => {} } ) {
+export function initBooking( { appointment, onDialog = () => {}, autoAt = 0 } ) {
 
 	const field = ( id, label, control ) => h( 'p', { class: 'field' }, h( 'label', { for: id }, label ), control );
 	const name = h( 'input', { id: 'bk-name', name: 'name', required: true, autocomplete: 'name', minlength: 2, maxlength: 80 } );
@@ -335,15 +335,38 @@ export function initBooking( { appointment, onDialog = () => {} } ) {
 		}
 
 	} );
+	let shown = false;
+	try { shown = sessionStorage.getItem( 'bookingShown' ) === '1'; } catch ( e ) { /* storage blocked: it may show again on reload */ }
+	const show = () => {
+
+		shown = true;
+		try { sessionStorage.setItem( 'bookingShown', '1' ); } catch ( e ) { /* storage blocked */ }
+		onDialog( true );
+		dialog.showModal();
+
+	};
 	document.addEventListener( 'click', e => {
 
 		const a = e.target.closest?.( 'a[data-book]' );
 		if ( ! a || e.metaKey || e.ctrlKey || e.shiftKey ) return;
 		e.preventDefault();
-		onDialog( true );
-		dialog.showModal();
+		show();
 
 	} );
+	// Auto-open once per visit, in the middle of the screen, when the visitor scrolls about halfway down the page.
+	if ( autoAt ) {
+
+		const check = () => {
+
+			const max = document.documentElement.scrollHeight - innerHeight;
+			if ( shown || max <= 0 || scrollY / max < autoAt || document.querySelector( 'dialog[open]' ) ) return; // a project popup is open: try again on the next scroll
+			removeEventListener( 'scroll', check );
+			show();
+
+		};
+		if ( ! shown ) addEventListener( 'scroll', check, { passive: true } );
+
+	}
 
 }
 

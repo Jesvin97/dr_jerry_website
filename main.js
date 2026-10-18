@@ -93,7 +93,7 @@ if ( fx ) {
 
 // First paint is ready: reveal on the next frame so nothing flashes or jumps.
 buildExtras( { appointment } );
-initBooking( { appointment, onDialog: setDialog } );
+initBooking( { appointment, onDialog: setDialog, autoAt: 0.5 } );
 requestAnimationFrame( () => requestAnimationFrame( () => {
 
 	$( 'loader' ).classList.add( 'done' );
