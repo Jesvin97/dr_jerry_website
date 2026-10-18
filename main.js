@@ -1,7 +1,6 @@
-import Lenis from 'lenis';
 import { profile, portrait, projects, appointment, scenes, WORK_RANGE } from './content.js';
 import { sampleShot, waypointIndex } from './timeline.js';
-import { buildStory, buildNav, buildExtras, buildReach, runCounters, createUpdater } from './ui.js';
+import { buildStory, buildNav, buildExtras, buildReach, initBooking, initMenu, runCounters, createUpdater } from './ui.js';
 
 const $ = id => document.getElementById( id );
 const root = document.documentElement;
@@ -17,6 +16,7 @@ document.querySelector( '.brand' ).textContent = profile.name;
 
 let lenis = null, stage = null, raf = 0;
 let dialogOpen = false;
+const setDialog = open => { dialogOpen = open; if ( open ) lenis?.stop(); else lenis?.start(); };
 
 if ( fx ) {
 
@@ -38,10 +38,11 @@ if ( fx ) {
 root.classList.toggle( 'fx', fx );
 
 const story = $( 'story' );
-const built = buildStory( story, { fx, onDialog: open => { dialogOpen = open; if ( open ) lenis?.stop(); else lenis?.start(); } } );
+const built = buildStory( story, { fx, onDialog: setDialog } );
 
 if ( fx ) {
 
+	const { default: Lenis } = await import( 'lenis' ); // phones and tablets never download it
 	lenis = new Lenis( { lerp: 0.065, smoothWheel: true } );
 	const limit = () => document.documentElement.scrollHeight - innerHeight;
 	let last = - 1, smooth = - 1, prevT = 0;
@@ -102,6 +103,7 @@ if ( fx ) {
 } else {
 
 	buildNav( $( 'nav' ), { fx } );
+	initMenu();
 	// plain layout: show the card once the Expertise section has been reached, hide it at Contact (no scroll listener needed)
 	const watch = ( id, fn ) => new IntersectionObserver( es => es.forEach( e => fn( e ) ), { rootMargin: '0px 0px -30% 0px' } ).observe( $( id ) );
 	let past = false, atContact = false;
@@ -115,6 +117,7 @@ if ( fx ) {
 // First paint is ready: reveal on the next frame so nothing flashes or jumps.
 buildExtras( { appointment } );
 const reachCard = buildReach();
+initBooking( { appointment, onDialog: setDialog, autoAt: 0 } ); // opens only from a[data-book] buttons; the contact card is the automatic prompt
 requestAnimationFrame( () => requestAnimationFrame( () => {
 
 	$( 'loader' ).classList.add( 'done' );

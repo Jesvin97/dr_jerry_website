@@ -18,3 +18,29 @@ Everything editable is in `content.js`: profile text, experience, stats, treatme
 - `timeline.js`: scroll progress to composition
 - `ui.js`, `main.js`, `page.js`: DOM, scene control, secondary pages
 - `main.css`, `page.css`: styles
+
+## Booking requests (Supabase)
+
+The "Book appointment" popup posts to `api/book.js` (a Vercel serverless function), which saves the request to Supabase. Set up once:
+
+1. Create a Supabase project and run this in its SQL editor:
+
+   ```sql
+   create table bookings (
+     id uuid primary key default gen_random_uuid(),
+     created_at timestamptz not null default now(),
+     name text not null,
+     phone text not null,
+     clinic text,
+     note text,
+     status text not null default 'new'
+   );
+   alter table bookings enable row level security; -- no policies: only the server key can read or write
+   ```
+
+2. In the Vercel project settings add environment variables `SUPABASE_URL` (the project URL) and `SUPABASE_SERVICE_KEY` (the service_role key; keep it server-side only), then redeploy.
+3. View requests in the Supabase Table Editor (`bookings`).
+
+Demo mode: until both variables are set, `/api/book` validates the request and replies OK without storing anything, and the popup's thank-you message adds "Demo version: this request was not stored." The same message appears if the host has no `/api` (for example `python serve.py`).
+
+`python serve.py` does not run `/api/book`; test it with `vercel dev` or on a Vercel preview deployment.
