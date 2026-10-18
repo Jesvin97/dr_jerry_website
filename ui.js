@@ -60,7 +60,7 @@ export function buildStory( story, { fx, onDialog } ) {
 	dialog.addEventListener( 'close', () => onDialog( false ) );
 	const openCase = p => {
 
-		dialog.replaceChildren(
+		dialog.replaceChildren( ...[
 			h( 'button', { class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
 			h( 'p', { class: 'eyebrow' }, p.year ),
 			h( 'h3', { id: 'case-h' }, p.name ),
@@ -68,7 +68,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			p.details.map( t => h( 'p', {}, t ) ),
 			h( 'dl', {}, h( 'dt', {}, 'Role' ), h( 'dd', {}, p.role ), h( 'dt', {}, 'Focus' ), h( 'dd', {}, p.tech.join( ', ' ) ) ),
 			projectLinks( p )
-		);
+		].flat().filter( Boolean ) ); // the DOM method would print null and arrays as text
 		onDialog( true );
 		dialog.showModal();
 
