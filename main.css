@@ -326,3 +326,17 @@ html:not(.fx) .panel.has-img .portrait.crop img { position: absolute; width: var
 #booking button[type="submit"] { margin-top: 1rem; border: 0; cursor: pointer; }
 #booking .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 #booking button[type="submit"]:disabled { opacity: 0.6; cursor: wait; }
+
+/* minimal phone layout: headline, one key line per section and the main actions; the full detail stays on desktop and tablet */
+@media (max-width: 699px) {
+	html:not(.fx) #intro .copy > p:not(.lede):not(.ctas), html:not(.fx) #intro .stats, html:not(.fx) #intro .text-link { display: none; }
+	html:not(.fx) .panel.has-img:not(#intro) .portrait { display: none; }
+	html:not(.fx) #about .copy > p:nth-of-type(n+3), html:not(.fx) #about .tags { display: none; }
+	html:not(.fx) .xp p { display: none; }
+	html:not(.fx) .xp li + li { margin-top: 1rem; }
+	html:not(.fx) .dash li:nth-child(n+5) { display: none; }
+	html:not(.fx) .cards span, html:not(.fx) .story, html:not(.fx) .press { display: none; }
+	html:not(.fx) .cards { gap: 0.9rem 1.2rem; }
+	html:not(.fx) .project:nth-of-type(n+4), html:not(.fx) .project .tech { display: none; }
+	html:not(.fx) #contact .copy > p:not(.eyebrow):not(.lede):not(.more) { display: none; }
+}
