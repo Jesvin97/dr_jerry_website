@@ -1,6 +1,6 @@
 // Renders the secondary pages (treatments.html, service.html) from content.js.
 import { profile, treatments, service, appointment, contact } from './content.js';
-import { h, iconLinks, runCounters } from './ui.js';
+import { h, iconLinks, runCounters, initBooking, initMenu } from './ui.js';
 
 const page = document.body.dataset.page;
 const card = ( i, { tag, title, text, link } ) => h( 'article', { class: 'card reveal', style: `--d:${i * 70}ms` },
@@ -22,21 +22,20 @@ if ( page === 'treatments' ) {
 	body.push(
 		head( treatments.eyebrow, treatments.heading ),
 		h( 'div', { class: 'rows' }, treatments.items.map( ( t, i ) => row( i, t ) ) ),
-		h( 'p', { class: 'ctas reveal' }, h( 'a', { class: 'cta big', href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ) )
+		h( 'p', { class: 'ctas reveal' }, h( 'a', { class: 'cta big', 'data-book': true, href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ) )
 	);
 
 } else {
 
 	document.title = `Public service and vision | ${profile.name}`;
-	const { peace, vision, community } = service;
+	const { peace, vision } = service;
 	body.push(
 		head( service.eyebrow, service.heading, service.intro ),
 		h( 'div', { class: 'stagger' }, service.items.map( ( t, i ) => card( i, t ) ) ),
 		h( 'section', { class: 'peace reveal' },
 			h( 'div', {}, h( 'p', { class: 'eyebrow' }, peace.tag ), h( 'h2', {}, peace.title ), h( 'p', {}, peace.text ) ),
 			h( 'div', { class: 'big-stat' }, h( 'strong', { 'data-to': peace.stat.value, 'data-suffix': '' }, '0' ), h( 'span', {}, peace.stat.label ) ) ),
-		section( vision.eyebrow, vision.heading, h( 'div', { class: 'asym' }, vision.items.map( ( t, i ) => card( i, t ) ) ) ),
-		section( community.eyebrow, community.heading, h( 'div', { class: 'asym' }, community.items.map( ( t, i ) => card( i, t ) ) ) )
+		section( vision.eyebrow, vision.heading, h( 'div', { class: 'asym' }, vision.items.map( ( t, i ) => card( i, t ) ) ) )
 	);
 
 }
@@ -45,6 +44,8 @@ const main = document.getElementById( 'story' );
 main.replaceChildren( ...body );
 document.getElementById( 'foot-links' ).replaceChildren( iconLinks( contact.links ) );
 document.getElementById( 'cta' ).href = appointment.href;
+initBooking( { appointment } );
+initMenu();
 document.querySelectorAll( '#nav a' ).forEach( a => a.toggleAttribute( 'aria-current', a.dataset.page === page ) );
 
 const still = matchMedia( '(prefers-reduced-motion: reduce)' ).matches;

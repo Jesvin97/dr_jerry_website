@@ -1,6 +1,6 @@
 import { profile, portrait, projects, appointment, scenes, WORK_RANGE } from './content.js';
 import { sampleShot, waypointIndex } from './timeline.js';
-import { buildStory, buildNav, buildExtras, runCounters, createUpdater } from './ui.js';
+import { buildStory, buildNav, buildExtras, initBooking, initMenu, runCounters, createUpdater } from './ui.js';
 
 const $ = id => document.getElementById( id );
 const root = document.documentElement;
@@ -16,6 +16,7 @@ document.querySelector( '.brand' ).textContent = profile.name;
 
 let lenis = null, stage = null, raf = 0;
 let dialogOpen = false;
+const setDialog = open => { dialogOpen = open; if ( open ) lenis?.stop(); else lenis?.start(); };
 
 if ( fx ) {
 
@@ -37,7 +38,7 @@ if ( fx ) {
 root.classList.toggle( 'fx', fx );
 
 const story = $( 'story' );
-const built = buildStory( story, { fx, onDialog: open => { dialogOpen = open; if ( open ) lenis?.stop(); else lenis?.start(); } } );
+const built = buildStory( story, { fx, onDialog: setDialog } );
 
 if ( fx ) {
 
@@ -85,12 +86,14 @@ if ( fx ) {
 } else {
 
 	buildNav( $( 'nav' ), { fx } );
+	initMenu();
 	on( window, 'resize', () => { if ( canFx() ) location.reload(); } );
 
 }
 
 // First paint is ready: reveal on the next frame so nothing flashes or jumps.
 buildExtras( { appointment } );
+initBooking( { appointment, onDialog: setDialog } );
 requestAnimationFrame( () => requestAnimationFrame( () => {
 
 	$( 'loader' ).classList.add( 'done' );

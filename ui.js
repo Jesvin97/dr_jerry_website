@@ -96,7 +96,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			h( 'ul', { class: 'stats' }, stats.map( s => h( 'li', {},
 				h( 'strong', s.value ? { 'data-to': s.value, 'data-suffix': s.suffix ?? '' } : {}, s.text ?? `0${s.suffix ?? ''}` ),
 				h( 'span', {}, s.label ) ) ) ),
-			h( 'p', { class: 'ctas' }, h( 'a', { class: 'cta big', href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), h( 'a', { class: 'text-link', href: secondary.href, target: '_blank', rel: 'noopener' }, secondary.label + ' ↗' ) ),
+			h( 'p', { class: 'ctas' }, h( 'a', { class: 'cta big', 'data-book': true, href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), h( 'a', { class: 'text-link', href: secondary.href, target: '_blank', rel: 'noopener' }, secondary.label + ' ↗' ) ),
 			null,
 			null ),
 		sec( 'about', 'panel--right',
@@ -133,7 +133,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			h( 'ul', { class: 'press' }, recognitionPanel.press.map( i => h( 'li', {}, h( 'em', {}, i.source ), `: ${i.title}` ) ) ) ),
 		fx && sec( 'transition', 'panel--right', h( 'p', { class: 'eyebrow' }, 'Public service' ), h( 'h2', { id: 'transition-h', class: 'big' }, 'Impact beyond the clinic' ), h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
 		h( 'section', { id: 'work', class: 'panel panel--work', 'aria-labelledby': 'work-h' },
-			h( 'h2', { id: 'work-h', class: fx ? 'sr-only' : '' }, 'Impact beyond the clinic' ), projectEls, ! fx && h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
+			h( 'h2', { id: 'work-h', class: fx ? 'sr-only' : '' }, 'Impact beyond the clinic' ), fx ? projectEls : h( 'div', { class: 'strip', tabindex: 0, role: 'region', 'aria-label': 'Initiatives, scroll sideways for more' }, projectEls ), ! fx && h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
 		sec( 'contact', 'panel--right',
 			h( 'p', { class: 'eyebrow' }, 'Contact' ),
 			h( 'h2', { id: 'contact-h' }, contact.heading ),
@@ -175,8 +175,25 @@ export function buildStory( story, { fx, onDialog } ) {
 
 export function buildNav( nav, { fx, onGo } ) {
 
-	nav.replaceChildren( ...scenes.filter( s => s.label ).map( s => h( 'li', {},
+	nav.replaceChildren( ...scenes.filter( s => s.label && ( fx || s.id !== 'intro' ) ).map( // the plain version has no Intro link: the brand name is the home button
+		 s => h( 'li', {},
 		h( 'a', { href: `#${s.id}`, 'data-scene': s.id, onclick: e => { if ( fx ) { e.preventDefault(); onGo( s ); } } }, s.label ) ) ) );
+
+}
+
+// Phone header: the section links collapse behind a menu button (CSS shows the button only on narrow screens).
+export function initMenu() {
+
+	const bar = document.getElementById( 'bar' ), nav = bar.querySelector( 'nav' );
+	nav.id = 'menu';
+	const btn = h( 'button', { type: 'button', class: 'menu-btn', 'aria-expanded': 'false', 'aria-controls': 'menu', 'aria-label': 'Menu' }, h( 'span' ), h( 'span' ), h( 'span' ) );
+	const set = open => { bar.classList.toggle( 'open', open ); btn.setAttribute( 'aria-expanded', String( open ) ); };
+	btn.addEventListener( 'click', () => set( ! bar.classList.contains( 'open' ) ) );
+	nav.addEventListener( 'click', e => { if ( e.target.closest( 'a' ) ) set( false ); } );
+	document.addEventListener( 'click', e => { if ( ! bar.contains( e.target ) ) set( false ); } );
+	document.addEventListener( 'keydown', e => { if ( e.key === 'Escape' && bar.classList.contains( 'open' ) ) { set( false ); btn.focus(); } } );
+	matchMedia( '(min-width: 700px)' ).addEventListener( 'change', e => { if ( e.matches ) set( false ); } );
+	bar.insertBefore( btn, nav );
 
 }
 
@@ -264,7 +281,69 @@ export { WORK_RANGE };
 export function buildExtras( { appointment } ) {
 
 	const bar = document.getElementById( 'bar' );
-	bar.insertBefore( h( 'a', { class: 'cta', href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), document.getElementById( 'mode-link' ) );
+	bar.insertBefore( h( 'a', { class: 'cta', 'data-book': true, href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), document.getElementById( 'mode-link' ) );
+
+}
+
+// Booking popup: posts the visitor's details to /api/book (saved in the database) and confirms in place.
+// Every a[data-book] opens it; without JS those links still go straight to WhatsApp.
+export function initBooking( { appointment, onDialog = () => {} } ) {
+
+	const field = ( id, label, control ) => h( 'p', { class: 'field' }, h( 'label', { for: id }, label ), control );
+	const name = h( 'input', { id: 'bk-name', name: 'name', required: true, autocomplete: 'name', minlength: 2, maxlength: 80 } );
+	const phone = h( 'input', { id: 'bk-phone', name: 'phone', type: 'tel', required: true, autocomplete: 'tel', inputmode: 'tel', pattern: '[0-9 +\\(\\)\\-]{10,18}', maxlength: 18, title: 'Enter a phone number with at least 10 digits' } );
+	const where = h( 'select', { id: 'bk-where', name: 'clinic' }, appointment.clinics.map( c => h( 'option', { value: c }, c ) ) );
+	const note = h( 'textarea', { id: 'bk-note', name: 'note', rows: 3, maxlength: 400, placeholder: 'e.g. knee pain for 3 months' } );
+	const trap = h( 'input', { name: 'website', tabindex: -1, autocomplete: 'off', 'aria-hidden': true } ); // honeypot: hidden from people, filled by bots
+	const status = h( 'p', { class: 'hint', role: 'status' } );
+	const send = h( 'button', { type: 'submit', class: 'cta big' }, 'Request appointment' );
+	const form = h( 'form', {},
+		field( 'bk-name', 'Your name', name ), field( 'bk-phone', 'Phone number', phone ),
+		field( 'bk-where', 'Where would you like to be seen?', where ), field( 'bk-note', 'What do you need help with? (optional)', note ),
+		h( 'span', { class: 'trap' }, trap ), status, send );
+	const note2 = h( 'p', { class: 'hint', hidden: true }, 'Demo version: this request was not stored.' );
+	const thanks = h( 'div', { hidden: true },
+		h( 'p', { class: 'lede' }, 'Thank you. Your request has been received and the clinic will call you back soon.' ),
+		h( 'p', { class: 'hint' }, `For anything urgent, call ${appointment.phone}.` ),
+		note2,
+		h( 'button', { type: 'button', onclick: () => dialog.close() }, 'Close' ) );
+	const dialog = h( 'dialog', { id: 'booking', 'data-lenis-prevent': true, 'aria-labelledby': 'booking-h' },
+		h( 'button', { type: 'button', class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
+		h( 'p', { class: 'eyebrow' }, 'Book an appointment' ), h( 'h3', { id: 'booking-h' }, 'Tell us how to reach you' ), form, thanks );
+	document.body.append( dialog );
+
+	const reset = () => { form.reset(); form.hidden = false; thanks.hidden = true; status.textContent = ''; send.disabled = false; send.textContent = 'Request appointment'; };
+	dialog.addEventListener( 'close', () => { onDialog( false ); reset(); } );
+	dialog.addEventListener( 'click', e => { if ( e.target === dialog ) dialog.close(); } ); // backdrop
+	form.addEventListener( 'submit', async e => {
+
+		e.preventDefault();
+		send.disabled = true; send.textContent = 'Sending…'; status.textContent = '';
+		try {
+
+			const r = await fetch( '/api/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify( Object.fromEntries( new FormData( form ) ) ) } );
+			const demo = r.status === 404 || ( r.ok && ( await r.json().catch( () => ( {} ) ) ).demo ); // no backend yet (or no database configured): acknowledge without saving
+			if ( ! r.ok && r.status !== 404 ) throw new Error( ( await r.json().catch( () => ( {} ) ) ).error || 'failed' );
+			note2.hidden = ! demo;
+			form.hidden = true; thanks.hidden = false; thanks.querySelector( 'button' ).focus();
+
+		} catch ( err ) {
+
+			status.textContent = `${err.message === 'failed' ? 'Sorry, that did not go through.' : err.message + '.'} Please try again or call ${appointment.phone}.`;
+			send.disabled = false; send.textContent = 'Request appointment';
+
+		}
+
+	} );
+	document.addEventListener( 'click', e => {
+
+		const a = e.target.closest?.( 'a[data-book]' );
+		if ( ! a || e.metaKey || e.ctrlKey || e.shiftKey ) return;
+		e.preventDefault();
+		onDialog( true );
+		dialog.showModal();
+
+	} );
 
 }
 
