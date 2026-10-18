@@ -28,15 +28,14 @@ if ( page === 'treatments' ) {
 } else {
 
 	document.title = `Public service and vision | ${profile.name}`;
-	const { peace, vision, community } = service;
+	const { peace, vision } = service;
 	body.push(
 		head( service.eyebrow, service.heading, service.intro ),
 		h( 'div', { class: 'stagger' }, service.items.map( ( t, i ) => card( i, t ) ) ),
 		h( 'section', { class: 'peace reveal' },
 			h( 'div', {}, h( 'p', { class: 'eyebrow' }, peace.tag ), h( 'h2', {}, peace.title ), h( 'p', {}, peace.text ) ),
 			h( 'div', { class: 'big-stat' }, h( 'strong', { 'data-to': peace.stat.value, 'data-suffix': '' }, '0' ), h( 'span', {}, peace.stat.label ) ) ),
-		section( vision.eyebrow, vision.heading, h( 'div', { class: 'asym' }, vision.items.map( ( t, i ) => card( i, t ) ) ) ),
-		section( community.eyebrow, community.heading, h( 'div', { class: 'asym' }, community.items.map( ( t, i ) => card( i, t ) ) ) )
+		section( vision.eyebrow, vision.heading, h( 'div', { class: 'asym' }, vision.items.map( ( t, i ) => card( i, t ) ) ) )
 	);
 
 }

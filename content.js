@@ -139,14 +139,10 @@ export const dashboard = {
 	eyebrow: 'Clinical stats',
 	heading: 'Surgical dashboard',
 	items: [
-		{ value: 26000, suffix: '+', label: 'Patients treated' },
-		{ value: 18000, suffix: '+', label: 'Surgeries performed' },
 		{ value: 8000, suffix: '+', label: 'Joint replacements' },
 		{ value: 4500, suffix: '+', label: 'Arthroscopies' },
 		{ value: 3500, suffix: '+', label: 'Trauma surgeries' },
-		{ value: 18, suffix: '+', label: 'Years of experience' },
-		{ value: 120, suffix: '+', label: 'Medical camps conducted' },
-		{ value: 6, suffix: '+', label: 'States served' },
+		{ value: 120, suffix: '+', label: 'Medical camps' },
 	],
 };
 
@@ -154,47 +150,38 @@ export const treatments = {
 	eyebrow: 'Orthopaedic care and specialty clinics',
 	heading: 'Surgical expertise and treatments',
 	items: [
-		{ tag: 'Hip and knee arthroplasty', title: 'Joint reconstruction and replacement', text: 'Surgical procedures where worn-out or damaged joint surfaces are reconstructed or replaced with high-durability prosthetic implants to eliminate arthritis pain and restore joint function.' },
-		{ tag: 'High precision surgery', title: 'Robotic knee replacement', text: 'Pioneering robotic-arm assisted knee replacement procedures that offer sub-millimeter precision, highly customized implant alignment, faster recovery times, and enhanced long-term outcomes.' },
-		{ tag: 'Minimally invasive keyhole', title: 'Arthroscopy and sports medicine', text: 'Advanced keyhole joint surgery (arthroscopy) for reconstructive tendon repairs, including ACL/PCL ligament reconstruction, meniscus repair, and treatments for athletic sports injuries.' },
-		{ tag: 'Emergency trauma care', title: 'Trauma and complex fracture surgery', text: 'Emergency medical stabilization and reconstructive surgery for polytrauma cases, non-union fractures, and complex skeletal reconstructions using modern internal fixation technology.' },
-		{ tag: 'Shoulder and rotator cuff', title: 'Advanced shoulder surgery', text: 'Minimally invasive arthroscopic repair of rotator cuff tears, shoulder instability, impingement, and comprehensive anatomical or reverse shoulder replacement surgery.' },
-		{ tag: 'Spine and pelvis clinics', title: 'Comprehensive spine care', text: 'Non-surgical and surgical diagnostic treatments for herniated discs, spinal stenosis, sciatica, spinal trauma, and lumbar/cervical decompression procedures.' },
+		{ tag: 'Hip and knee arthroplasty', title: 'Joint reconstruction and replacement', text: 'Worn-out hip and knee joints replaced with durable implants to end arthritis pain and restore movement.' },
+		{ tag: 'High precision surgery', title: 'Robotic knee replacement', text: 'Robotic-arm-assisted knee replacement for precise alignment and faster recovery.' },
+		{ tag: 'Minimally invasive keyhole', title: 'Arthroscopy and sports medicine', text: 'Keyhole surgery for ACL/PCL ligament reconstruction, meniscus repair and sports injuries.' },
+		{ tag: 'Emergency trauma care', title: 'Trauma and complex fracture surgery', text: 'Emergency stabilisation and reconstruction for polytrauma and complex or non-union fractures.' },
+		{ tag: 'Shoulder and rotator cuff', title: 'Advanced shoulder surgery', text: 'Arthroscopic repair of rotator cuff tears and instability, plus shoulder replacement.' },
+		{ tag: 'Spine and pelvis clinics', title: 'Comprehensive spine care', text: 'Treatment for herniated discs, spinal stenosis, sciatica and spinal trauma.' },
 	],
 };
 
 export const service = {
 	eyebrow: 'National service and social reform',
 	heading: 'Public service and leadership',
-	intro: 'Dr. Jerry Mathew represents a distinct brand of leadership that bridges healthcare management, policy reform, and active peace building.',
+	intro: 'A distinct brand of leadership that bridges healthcare management, policy reform and peace building.',
 	items: [
-		{ title: 'Public policy and healthcare reforms', text: 'Collaborates with government bodies to formulate affordable medicine schemes, digital patient records, and decentralized models for rural clinics.' },
-		{ title: 'Nation building and youth development', text: 'Brand Ambassador for Y20 India, mobilizing college students in "Plant a Tree against Drugs" and leadership workshops.' },
-		{ title: 'Women\'s empowerment', text: 'Works alongside the National Women\'s Forum (YMCA) to promote health, economic opportunities, and social rights for women.' },
-		{ title: 'Community health administration', text: 'Serves as National Advisor to the Human Rights Protection Mission (HRPM), monitoring medical access across states.' },
+		{ title: 'Public policy and healthcare reforms', text: 'Works with government bodies on affordable medicine schemes, digital patient records and rural clinic models.' },
+		{ title: 'Nation building and youth development', text: 'Y20 India Brand Ambassador, leading "Plant a Tree against Drugs" and student leadership workshops.' },
+		{ title: 'Women\'s empowerment', text: 'Works with the National Women\'s Forum (YMCA) on women\'s health, economic opportunity and rights.' },
+		{ title: 'Community health administration', text: 'National Advisor to the Human Rights Protection Mission, monitoring medical access across states.' },
 	],
 	peace: {
 		tag: 'Special peace mission',
 		title: 'Manipur peace outreach',
-		text: 'Under the aegis of the Kerala Council of Churches and World Council of Churches, Dr. Jerry Mathew entered conflict-torn Manipur zones (including Churachandpur & Kangpokpi) to organize medical supplies, formulate community peace pacts, and safely relocate 47 Kuki students to Thiruvalla, Kerala, ensuring they resumed their education.',
+		text: 'With the Kerala and World Councils of Churches, entered conflict-torn Manipur to deliver medical supplies, broker community peace pacts and relocate 47 Kuki students to Thiruvalla, Kerala, where they resumed their education.',
 		stat: { value: 47, label: 'Students re-enrolled and supported' },
 	},
 	vision: {
 		eyebrow: 'Development and policy manifesto',
 		heading: 'Vision for India',
 		items: [
-			{ title: 'Decentralized clinical care', text: 'Building a network of digitally-linked community clinics that provide free primary healthcare, preventive screening, and direct Specialist access to rural panchayats.' },
-			{ title: 'Youth empowerment and jobs', text: 'Advocating for modern vocational training programs, AI-focused skill hubs, and active community-service fellowships to secure local employment for Kerala\'s youth.' },
-			{ title: 'Sports cities and wellness', text: 'Spearheading the creation of multi-sport wellness corridors (starting in regions like Kuttanad) to cultivate athletic talent, promote physical health, and counter drug abuse.' },
-		],
-	},
-	community: {
-		eyebrow: 'Grassroots welfare campaigns',
-		heading: 'Community initiatives',
-		items: [
-			{ tag: 'Flagship project', title: 'JANANI Campaign', text: 'Executive Chairman of the JANANI initiative, deploying mobile health clinics, organizing pediatric screenings, and coordinating maternal nutrition support across marginalized communities in Kerala.', link: { label: 'Visit the JANANI website', href: 'https://myjanani.in' } },
-			{ tag: 'Medical relief', title: 'Kaithang and diagnostic camps', text: 'Coordinating mega-camps with advanced medical scans, orthopedic aid distribution, and free reconstructive surgeries for accident victims and low-income patients.' },
-			{ tag: 'Disaster response', title: 'Operation Toofan Relief', text: 'Leading swift medical rescue operations, setting up emergency camps, and distributing relief kits to communities hit by floods and natural disasters.' },
+			{ title: 'Decentralized clinical care', text: 'Digitally linked community clinics offering free primary care, screening and specialist access to rural panchayats.' },
+			{ title: 'Youth empowerment and jobs', text: 'Vocational training, AI skill hubs and community-service fellowships to create local jobs for Kerala\'s youth.' },
+			{ title: 'Sports cities and wellness', text: 'Multi-sport wellness corridors, starting in Kuttanad, to build athletic talent and counter drug abuse.' },
 		],
 	},
 };
@@ -204,7 +191,7 @@ export const secondary = { label: 'Visit the JANANI website', href: 'https://myj
 
 export const contact = {
 	heading: 'Book an appointment.',
-	text: 'St. Thomas Mission Hospital, Kattanam (Mon to Sat, 9:00 AM to 1:00 PM) · Sunrise Hospital, Kochi (robotic knee clinics, by appointment) · Mount Zion Institute of Medical Sciences. Video consultation also available.',
+	text: 'St. Thomas Mission Hospital, Kattanam (Mon to Sat, 9 AM to 1 PM) · Sunrise Hospital, Kochi (by appointment) · Video consultation.',
 	email: 'drjerryortho@gmail.com',
 	phone: '+91 85909 36816',
 	links: [
