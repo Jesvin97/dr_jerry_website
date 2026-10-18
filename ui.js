@@ -60,15 +60,15 @@ export function buildStory( story, { fx, onDialog } ) {
 	dialog.addEventListener( 'close', () => onDialog( false ) );
 	const openCase = p => {
 
-		dialog.replaceChildren(
+		dialog.replaceChildren( ...[
 			h( 'button', { class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
 			h( 'p', { class: 'eyebrow' }, p.year ),
 			h( 'h3', { id: 'case-h' }, p.name ),
 			p.media.image && h( 'div', { class: 'media' }, safeImg( p.media.image, () => projectCanvas( projects.indexOf( p ), p.name ), `${p.name} photo` ) ),
-			p.details.map( t => h( 'p', {}, t ) ),
+			...p.details.map( t => h( 'p', {}, t ) ),
 			h( 'dl', {}, h( 'dt', {}, 'Role' ), h( 'dd', {}, p.role ), h( 'dt', {}, 'Focus' ), h( 'dd', {}, p.tech.join( ', ' ) ) ),
 			projectLinks( p )
-		);
+		].filter( Boolean ) ); // replaceChildren doesn't flatten arrays or skip null
 		onDialog( true );
 		dialog.showModal();
 
@@ -151,7 +151,17 @@ export function buildStory( story, { fx, onDialog } ) {
 			const el = panels.find( p => p.id === id );
 			el.classList.add( 'has-img' );
 			if ( n % 2 ) el.classList.add( 'flip' );
-			el.append( h( 'figure', { class: 'portrait' }, heroImg( i, `Portrait of ${profile.name}` ) ) );
+			const fig = h( 'figure', { class: 'portrait' }, heroImg( i, `Portrait of ${profile.name}` ) );
+			const [ x0, y0, x1, y1, W, H ] = portrait[ i ].crop ?? [];
+			if ( W ) { // trim the transparent margins: size the figure to the opaque area and offset the image inside it
+
+				const bw = x1 - x0, bh = y1 - y0;
+				fig.classList.add( 'crop' );
+				fig.style.cssText = `--ar:${bw} / ${bh}; --w:${W / bw * 100}%; --l:${- x0 / bw * 100}%; --t:${- y0 / bh * 100}%`;
+				fig.firstChild.addEventListener( 'error', () => fig.classList.remove( 'crop' ) ); // placeholder canvas is uncropped
+
+			}
+			el.append( fig );
 
 		} );
 
@@ -263,7 +273,9 @@ export function runCounters( instant, scope = document ) {
 	for ( const el of scope.querySelectorAll( '[data-to]' ) ) {
 
 		const to = +el.dataset.to, fmt = n => Math.round( n ).toLocaleString( 'en-IN' ) + el.dataset.suffix;
-		if ( instant ) { el.textContent = fmt( to ); continue; }
+		el.textContent = fmt( to );
+		if ( instant ) continue;
+		const box = el.parentElement; box.style.minWidth = `${box.offsetWidth}px`; // reserve the final width so the counting digits don't reflow the stats row
 		const t0 = performance.now();
 		const tick = now => {
 

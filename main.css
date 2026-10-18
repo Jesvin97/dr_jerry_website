@@ -291,3 +291,15 @@ html:not(.fx) .panel.has-img .portrait { margin: 0; max-width: none; }
 	html:not(.fx) .panel.has-img h1 { font-size: clamp(2.8rem, 5vw, 4.6rem); }
 	html:not(.fx) .panel.has-img .portrait img { max-height: 34rem; width: auto; margin-inline: auto; display: block; }
 }
+
+/* tablets run the plain version: the header has no room for the button (the intro has its own) */
+@media (max-width: 999px) { html:not(.fx) #bar .cta { display: none; } }
+
+/* plain version: portraits trimmed to the visible figure (see crop in content.js) */
+html:not(.fx) .portrait.crop { position: relative; overflow: hidden; aspect-ratio: var(--ar); }
+html:not(.fx) .panel.has-img .portrait.crop img { position: absolute; width: var(--w); max-width: none; max-height: none; height: auto; left: var(--l); top: var(--t); margin: 0; }
+@media (max-width: 559px) {
+	html:not(.fx) .panel { padding: 2.5rem 0; }
+	html:not(.fx) .panel.has-img .portrait { max-width: 17rem; }
+	.cards { grid-template-columns: 1fr; }
+}

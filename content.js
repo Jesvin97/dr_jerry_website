@@ -19,12 +19,13 @@ export const profile = {
 // One photo per scene (intro, person, experience, projects, contact); they crossfade as the camera cuts.
 // focus = [x, y, rx, ry] of the soft oval (fractions of the image, y from top) keeping the subject and fading the
 // backdrop; zoom evens out subject size. deg is only used to draw the placeholder if a file is missing.
+// crop = opaque area of each cutout [ x0, y0, x1, y1, imageWidth, imageHeight ] in px, so the plain version can trim the transparent margins
 export const portrait = [
-	{ deg: 0, src: img + 'portrait/cutout/intro.webp', focus: [ 0.5, 0.52, 0, 0 ], zoom: 1.3 },
-	{ deg: 25, src: img + 'portrait/cutout/person.webp', focus: [ 0.58, 0.55, 0, 0 ], zoom: 0.74 },
-	{ deg: 45, src: img + 'portrait/cutout/experience.webp', focus: [ 0.5, 0.6, 0, 0 ], zoom: 0.72 },
+	{ deg: 0, src: img + 'portrait/cutout/intro.webp', crop: [ 92, 418, 1017, 1511, 1066, 1600 ], focus: [ 0.5, 0.52, 0, 0 ], zoom: 1.3 },
+	{ deg: 25, src: img + 'portrait/cutout/person.webp', crop: [ 309, 10, 1436, 1066, 1600, 1066 ], focus: [ 0.58, 0.55, 0, 0 ], zoom: 0.74 },
+	{ deg: 45, src: img + 'portrait/cutout/experience.webp', crop: [ 388, 186, 1261, 1066, 1600, 1066 ], focus: [ 0.5, 0.6, 0, 0 ], zoom: 0.72 },
 	{ deg: 65, src: img + 'portrait/cutout/work.webp', focus: [ 0.55, 0.6, 0, 0 ], zoom: 1, feather: 0.004 },
-	{ deg: 90, src: img + 'portrait/cutout/contact.webp', focus: [ 0.5, 0.42, 0, 0 ], zoom: 1.25 },
+	{ deg: 90, src: img + 'portrait/cutout/contact.webp', crop: [ 79, 298, 1026, 1600, 1066, 1600 ], focus: [ 0.5, 0.42, 0, 0 ], zoom: 1.25 },
 ];
 
 export const experience = [

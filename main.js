@@ -1,4 +1,3 @@
-import Lenis from 'lenis';
 import { profile, portrait, projects, appointment, scenes, WORK_RANGE } from './content.js';
 import { sampleShot, waypointIndex } from './timeline.js';
 import { buildStory, buildNav, buildExtras, runCounters, createUpdater } from './ui.js';
@@ -42,6 +41,7 @@ const built = buildStory( story, { fx, onDialog: open => { dialogOpen = open; if
 
 if ( fx ) {
 
+	const { default: Lenis } = await import( 'lenis' ); // phones and tablets never download it
 	lenis = new Lenis( { lerp: 0.08, smoothWheel: true } );
 	const limit = () => document.documentElement.scrollHeight - innerHeight;
 	buildNav( $( 'nav' ), { fx, onGo: s => lenis.scrollTo( s.anchor * limit(), { duration: 1.6 } ) } );
