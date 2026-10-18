@@ -172,7 +172,7 @@ export const service = {
 	peace: {
 		tag: 'Special peace mission',
 		title: 'Manipur peace outreach',
-		text: 'With the Kerala and World Councils of Churches, entered conflict-torn Manipur to deliver medical supplies, broker community peace pacts and relocate 47 Kuki students to Thiruvalla, Kerala, where they resumed their education.',
+		text: 'Led medical aid into conflict-torn Manipur, brokered community peace pacts and relocated 47 Kuki students to Kerala to continue their education.',
 		stat: { value: 47, label: 'Students re-enrolled and supported' },
 	},
 	vision: {
