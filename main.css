@@ -303,3 +303,12 @@ html:not(.fx) .panel.has-img .portrait.crop img { position: absolute; width: var
 	html:not(.fx) .panel.has-img .portrait { max-width: 17rem; }
 	.cards { grid-template-columns: 1fr; }
 }
+
+/* booking popup */
+#booking .field { display: grid; gap: 0.35rem; margin-top: 1rem; }
+#booking label { font-size: 0.85rem; color: var(--mute); }
+#booking input, #booking select, #booking textarea { font: inherit; font-size: 1rem; color: var(--fg); background: #fff; border: 1px solid var(--line); border-radius: 0.6rem; padding: 0.7rem 0.8rem; width: 100%; }
+#booking textarea { resize: vertical; }
+#booking input:focus-visible, #booking select:focus-visible, #booking textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#booking .hint { margin-top: 1rem; font-size: 0.85rem; color: var(--mute); }
+#booking button[type="submit"] { margin-top: 1rem; border: 0; cursor: pointer; }

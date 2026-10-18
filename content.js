@@ -199,7 +199,7 @@ export const service = {
 	},
 };
 
-export const appointment = { label: 'Book appointment', href: 'https://wa.me/918590936816' };
+export const appointment = { label: 'Book appointment', href: 'https://wa.me/918590936816', whatsapp: '918590936816', clinics: [ 'St. Thomas Mission Hospital, Kattanam', 'Sunrise Hospital, Kochi (robotic knee clinic)', 'Video consultation' ] };
 export const secondary = { label: 'Visit the JANANI website', href: 'https://myjanani.in' };
 
 export const contact = {

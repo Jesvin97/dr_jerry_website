@@ -96,7 +96,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			h( 'ul', { class: 'stats' }, stats.map( s => h( 'li', {},
 				h( 'strong', s.value ? { 'data-to': s.value, 'data-suffix': s.suffix ?? '' } : {}, s.text ?? `0${s.suffix ?? ''}` ),
 				h( 'span', {}, s.label ) ) ) ),
-			h( 'p', { class: 'ctas' }, h( 'a', { class: 'cta big', href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), h( 'a', { class: 'text-link', href: secondary.href, target: '_blank', rel: 'noopener' }, secondary.label + ' ↗' ) ),
+			h( 'p', { class: 'ctas' }, h( 'a', { class: 'cta big', 'data-book': true, href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), h( 'a', { class: 'text-link', href: secondary.href, target: '_blank', rel: 'noopener' }, secondary.label + ' ↗' ) ),
 			null,
 			null ),
 		sec( 'about', 'panel--right',
@@ -264,7 +264,49 @@ export { WORK_RANGE };
 export function buildExtras( { appointment } ) {
 
 	const bar = document.getElementById( 'bar' );
-	bar.insertBefore( h( 'a', { class: 'cta', href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), document.getElementById( 'mode-link' ) );
+	bar.insertBefore( h( 'a', { class: 'cta', 'data-book': true, href: appointment.href, target: '_blank', rel: 'noopener' }, appointment.label ), document.getElementById( 'mode-link' ) );
+
+}
+
+// Booking popup: collects a few details and hands them to WhatsApp as a ready-to-send message (the site has no backend).
+// Every a[data-book] opens it; without JS those links still go straight to WhatsApp.
+export function initBooking( { appointment, onDialog = () => {} } ) {
+
+	const field = ( id, label, control ) => h( 'p', { class: 'field' }, h( 'label', { for: id }, label ), control );
+	const name = h( 'input', { id: 'bk-name', name: 'name', required: true, autocomplete: 'name', maxlength: 80 } );
+	const phone = h( 'input', { id: 'bk-phone', name: 'phone', type: 'tel', required: true, autocomplete: 'tel', inputmode: 'tel', pattern: '[0-9 +\\(\\)\\-]{10,18}', maxlength: 18, title: 'Enter a phone number with at least 10 digits' } );
+	const where = h( 'select', { id: 'bk-where', name: 'where' }, appointment.clinics.map( c => h( 'option', { value: c }, c ) ) );
+	const note = h( 'textarea', { id: 'bk-note', name: 'note', rows: 3, maxlength: 400, placeholder: 'e.g. knee pain for 3 months' } );
+	const form = h( 'form', { novalidate: false },
+		field( 'bk-name', 'Your name', name ), field( 'bk-phone', 'Phone number', phone ),
+		field( 'bk-where', 'Where would you like to be seen?', where ), field( 'bk-note', 'What do you need help with? (optional)', note ),
+		h( 'p', { class: 'hint' }, 'This opens WhatsApp with your details filled in. Press send there to reach the clinic.' ),
+		h( 'button', { type: 'submit', class: 'cta big' }, 'Continue on WhatsApp' ) );
+	const dialog = h( 'dialog', { id: 'booking', 'data-lenis-prevent': true, 'aria-labelledby': 'booking-h' },
+		h( 'button', { type: 'button', class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
+		h( 'p', { class: 'eyebrow' }, 'Book an appointment' ), h( 'h3', { id: 'booking-h' }, 'Tell us how to reach you' ), form );
+	document.body.append( dialog );
+
+	dialog.addEventListener( 'close', () => onDialog( false ) );
+	dialog.addEventListener( 'click', e => { if ( e.target === dialog ) dialog.close(); } ); // backdrop
+	form.addEventListener( 'submit', e => {
+
+		e.preventDefault();
+		const text = [ 'Hello Dr. Jerry, I would like to book an appointment.', `Name: ${name.value.trim()}`, `Phone: ${phone.value.trim()}`, `Preferred: ${where.value}`, note.value.trim() && `Note: ${note.value.trim()}` ].filter( Boolean ).join( '\n' );
+		window.open( `https://wa.me/${appointment.whatsapp}?text=${encodeURIComponent( text )}`, '_blank', 'noopener' );
+		dialog.close();
+		form.reset();
+
+	} );
+	document.addEventListener( 'click', e => {
+
+		const a = e.target.closest?.( 'a[data-book]' );
+		if ( ! a || e.metaKey || e.ctrlKey || e.shiftKey ) return;
+		e.preventDefault();
+		onDialog( true );
+		dialog.showModal();
+
+	} );
 
 }
 
