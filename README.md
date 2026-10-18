@@ -39,6 +39,8 @@ The "Book appointment" popup posts to `api/book.js` (a Vercel serverless functio
    ```
 
 2. In the Vercel project settings add environment variables `SUPABASE_URL` (the project URL) and `SUPABASE_SERVICE_KEY` (the service_role key; keep it server-side only), then redeploy.
-3. View requests in the Supabase Table Editor (`bookings`). Without these variables the popup shows an error asking visitors to call instead.
+3. View requests in the Supabase Table Editor (`bookings`).
+
+Demo mode: until both variables are set, `/api/book` validates the request and replies OK without storing anything, and the popup's thank-you message adds "Demo version: this request was not stored." The same message appears if the host has no `/api` (for example `python serve.py`).
 
 `python serve.py` does not run `/api/book`; test it with `vercel dev` or on a Vercel preview deployment.

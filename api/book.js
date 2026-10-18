@@ -1,5 +1,6 @@
 // POST /api/book: saves a booking request from the website popup to Supabase.
 // Needs SUPABASE_URL and SUPABASE_SERVICE_KEY in the Vercel project's environment variables (server-side only, never sent to the browser).
+// Without them it runs as a demo: the request is validated and acknowledged but not stored.
 
 const hits = new Map(); // best-effort per-instance rate limit: 5 requests per IP per 10 minutes
 const limited = ip => {
@@ -19,7 +20,7 @@ module.exports = async ( req, res ) => {
 	if ( req.method !== 'POST' ) { res.setHeader( 'Allow', 'POST' ); return res.status( 405 ).json( { error: 'Method not allowed' } ); }
 
 	const { SUPABASE_URL, SUPABASE_SERVICE_KEY } = process.env;
-	if ( ! SUPABASE_URL || ! SUPABASE_SERVICE_KEY ) return res.status( 503 ).json( { error: 'Booking is not configured yet' } );
+	const demo = ! SUPABASE_URL || ! SUPABASE_SERVICE_KEY;
 
 	const ip = ( req.headers[ 'x-forwarded-for' ] || '' ).split( ',' )[ 0 ].trim() || 'unknown';
 	if ( limited( ip ) ) return res.status( 429 ).json( { error: 'Too many requests, please try again later' } );
@@ -30,6 +31,8 @@ module.exports = async ( req, res ) => {
 	const name = clean( b.name, 80 ), phone = clean( b.phone, 18 ), clinic = clean( b.clinic, 120 ), note = clean( b.note, 400 );
 	if ( name.length < 2 ) return res.status( 400 ).json( { error: 'Please enter your name' } );
 	if ( ! /^[0-9 +()\-]+$/.test( phone ) || phone.replace( /\D/g, '' ).length < 10 ) return res.status( 400 ).json( { error: 'Please enter a valid phone number' } );
+
+	if ( demo ) return res.status( 200 ).json( { ok: true, demo: true } );
 
 	try {
 

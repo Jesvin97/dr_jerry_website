@@ -301,9 +301,11 @@ export function initBooking( { appointment, onDialog = () => {} } ) {
 		field( 'bk-name', 'Your name', name ), field( 'bk-phone', 'Phone number', phone ),
 		field( 'bk-where', 'Where would you like to be seen?', where ), field( 'bk-note', 'What do you need help with? (optional)', note ),
 		h( 'span', { class: 'trap' }, trap ), status, send );
+	const note2 = h( 'p', { class: 'hint', hidden: true }, 'Demo version: this request was not stored.' );
 	const thanks = h( 'div', { hidden: true },
 		h( 'p', { class: 'lede' }, 'Thank you. Your request has been received and the clinic will call you back soon.' ),
 		h( 'p', { class: 'hint' }, `For anything urgent, call ${appointment.phone}.` ),
+		note2,
 		h( 'button', { type: 'button', onclick: () => dialog.close() }, 'Close' ) );
 	const dialog = h( 'dialog', { id: 'booking', 'data-lenis-prevent': true, 'aria-labelledby': 'booking-h' },
 		h( 'button', { type: 'button', class: 'close', onclick: () => dialog.close(), 'aria-label': 'Close' }, '✕' ),
@@ -320,7 +322,9 @@ export function initBooking( { appointment, onDialog = () => {} } ) {
 		try {
 
 			const r = await fetch( '/api/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify( Object.fromEntries( new FormData( form ) ) ) } );
-			if ( ! r.ok ) throw new Error( ( await r.json().catch( () => ( {} ) ) ).error || 'failed' );
+			const demo = r.status === 404 || ( r.ok && ( await r.json().catch( () => ( {} ) ) ).demo ); // no backend yet (or no database configured): acknowledge without saving
+			if ( ! r.ok && r.status !== 404 ) throw new Error( ( await r.json().catch( () => ( {} ) ) ).error || 'failed' );
+			note2.hidden = ! demo;
 			form.hidden = true; thanks.hidden = false; thanks.querySelector( 'button' ).focus();
 
 		} catch ( err ) {
