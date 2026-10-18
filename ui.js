@@ -151,7 +151,17 @@ export function buildStory( story, { fx, onDialog } ) {
 			const el = panels.find( p => p.id === id );
 			el.classList.add( 'has-img' );
 			if ( n % 2 ) el.classList.add( 'flip' );
-			el.append( h( 'figure', { class: 'portrait' }, heroImg( i, `Portrait of ${profile.name}` ) ) );
+			const fig = h( 'figure', { class: 'portrait' }, heroImg( i, `Portrait of ${profile.name}` ) );
+			const [ x0, y0, x1, y1, W, H ] = portrait[ i ].crop ?? [];
+			if ( W ) { // trim the transparent margins: size the figure to the opaque area and offset the image inside it
+
+				const bw = x1 - x0, bh = y1 - y0;
+				fig.classList.add( 'crop' );
+				fig.style.cssText = `--ar:${bw} / ${bh}; --w:${W / bw * 100}%; --l:${- x0 / bw * 100}%; --t:${- y0 / bh * 100}%`;
+				fig.firstChild.addEventListener( 'error', () => fig.classList.remove( 'crop' ) ); // placeholder canvas is uncropped
+
+			}
+			el.append( fig );
 
 		} );
 
