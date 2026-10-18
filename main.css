@@ -312,3 +312,5 @@ html:not(.fx) .panel.has-img .portrait.crop img { position: absolute; width: var
 #booking input:focus-visible, #booking select:focus-visible, #booking textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 #booking .hint { margin-top: 1rem; font-size: 0.85rem; color: var(--mute); }
 #booking button[type="submit"] { margin-top: 1rem; border: 0; cursor: pointer; }
+#booking .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+#booking button[type="submit"]:disabled { opacity: 0.6; cursor: wait; }
