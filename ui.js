@@ -126,7 +126,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			h( 'ul', { class: 'cards' }, expertise.items.map( i => h( 'li', {}, h( 'strong', {}, i.name ), h( 'span', {}, i.text ) ) ) ),
 			h( 'p', { class: 'story' }, expertise.story ),
 			h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'treatments.html' }, 'All treatments and clinics →' ) ) ),
-		sec( 'recognition', 'panel--left',
+		sec( 'recognition', 'panel--right',
 			h( 'p', { class: 'eyebrow' }, 'Recognition' ),
 			h( 'h2', { id: 'recognition-h' }, recognitionPanel.heading ),
 			h( 'ul', { class: 'cards' }, recognitionPanel.awards.map( i => h( 'li', {}, h( 'strong', {}, i.name ), h( 'span', {}, i.text ) ) ) ),
@@ -151,7 +151,7 @@ export function buildStory( story, { fx, onDialog } ) {
 	// Plain version: each portrait sits beside its section's text, alternating sides.
 	if ( ! fx ) {
 
-		[ [ 'intro', 0 ], [ 'about', 1 ], [ 'experience', 2 ], [ 'recognition', 3 ], [ 'contact', 4 ] ].forEach( ( [ id, i ], n ) => {
+		[ [ 'intro', 0 ], [ 'about', 1 ], [ 'experience', 1 ], [ 'recognition', 2 ], [ 'contact', 4 ] ].forEach( ( [ id, i ], n ) => {
 
 			const el = panels.find( p => p.id === id );
 			el.classList.add( 'has-img' );

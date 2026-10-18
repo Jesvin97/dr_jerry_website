@@ -42,27 +42,41 @@ const built = buildStory( story, { fx, onDialog: open => { dialogOpen = open; if
 
 if ( fx ) {
 
-	lenis = new Lenis( { lerp: 0.08, smoothWheel: true } );
+	lenis = new Lenis( { lerp: 0.065, smoothWheel: true } );
 	const limit = () => document.documentElement.scrollHeight - innerHeight;
-	buildNav( $( 'nav' ), { fx, onGo: s => lenis.scrollTo( s.anchor * limit(), { duration: 1.6 } ) } );
-	document.querySelector( '.brand' ).addEventListener( 'click', e => { e.preventDefault(); lenis.scrollTo( 0, { duration: 1.6 } ); } ); // name = back to the top
+	let last = - 1, smooth = - 1, prevT = 0;
+	// Nav clicks go straight to the section: a short fade, then an instant cut, so the scenes in between never play.
+	const veil = Object.assign( document.createElement( 'div' ), { className: 'veil' } ); veil.setAttribute( 'aria-hidden', 'true' ); document.body.append( veil );
+	let jumpTimer = 0;
+	const jump = y => {
+
+		clearTimeout( jumpTimer );
+		const go = () => { lenis.scrollTo( y, { immediate: true } ); smooth = - 1; veil.classList.remove( 'on' ); };
+		if ( calm ) { go(); return; }
+		veil.classList.add( 'on' ); jumpTimer = setTimeout( go, 240 );
+
+	};
+	buildNav( $( 'nav' ), { fx, onGo: s => jump( s.anchor * limit() ) } );
+	document.querySelector( '.brand' ).addEventListener( 'click', e => { e.preventDefault(); jump( 0 ); } ); // name = back to the top
 	const update = createUpdater( { ...built, nav: $( 'nav' ), bar: $( 'progress' ) } );
 
-	let last = - 1;
 	const ptr = { x: 0, y: 0 }, tgt = { x: 0, y: 0 };
 	on( window, 'pointermove', e => { tgt.x = e.clientX / innerWidth - 0.5; tgt.y = e.clientY / innerHeight - 0.5; } );
 	const frame = t => {
 
 		raf = requestAnimationFrame( frame );
 		lenis.raf( t );
-		const p = Math.min( 1, Math.max( 0, limit() > 0 ? lenis.animatedScroll / limit() : 0 ) );
+		const raw = Math.min( 1, Math.max( 0, limit() > 0 ? lenis.animatedScroll / limit() : 0 ) );
+		const dt = Math.min( 0.05, ( t - prevT ) / 1000 ); prevT = t;
+		smooth = smooth < 0 || calm ? raw : smooth + ( raw - smooth ) * ( 1 - Math.exp( - dt * 5.5 ) ); // time-based glide: same feel at 30, 60 or 144 fps, hides stepped wheel ticks
+		const p = smooth;
 		last = p;
 		ptr.x += ( tgt.x - ptr.x ) * 0.05; ptr.y += ( tgt.y - ptr.y ) * 0.05; // the scene is alive: it renders every frame
 		const u = ( p - WORK_RANGE[ 0 ] ) / ( WORK_RANGE[ 1 ] - WORK_RANGE[ 0 ] );
 		const projFloat = waypointIndex( ( u - 0.08 ) / 0.84, projects.length );
 		stage.update( sampleShot( p ), projFloat, p, calm ? 0 : t / 1000, calm ? { x: 0, y: 0 } : ptr );
 		update( p, projFloat );
-		reachCard.flip( ( p > 0.41 && p < 0.515 ) || ( p > 0.645 && p < 0.765 ) ); // text-left scenes: card goes right
+		reachCard.flip( p > 0.41 && p < 0.515 ); // the one text-left scene (numbers): card goes right
 		reachCard.show( p > 0.46 && p < 0.955 ); // after the clinical numbers, until the Contact scene itself
 
 	};

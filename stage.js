@@ -164,7 +164,7 @@ export async function createStage( { container, portrait, projects, name } ) {
 		portraitGroup.scale.setScalar( 1 + Math.sin( t * 1.3 ) * 0.006 ); // breathing
 		// Cut between photos with a scroll-driven wipe: the new photo is revealed behind a moving edge, the old one retreats.
 		const last = layers.length - 1, i0 = Math.min( last - 1, Math.floor( s.shot ) );
-		const f = smoothstep( 0.12, 0.88, s.shot - i0 ), span = ph * 0.9, edge = portraitGroup.position.x + ( f * 2 - 1 ) * span;
+		const f = smoothstep( 0.05, 0.95, s.shot - i0 ), span = ph * 0.9, edge = portraitGroup.position.x + ( f * 2 - 1 ) * span;
 		const dim = 1 - s.projIn * 0.18;
 		layers.forEach( ( l, i ) => {
 
