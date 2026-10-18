@@ -263,7 +263,9 @@ export function runCounters( instant, scope = document ) {
 	for ( const el of scope.querySelectorAll( '[data-to]' ) ) {
 
 		const to = +el.dataset.to, fmt = n => Math.round( n ).toLocaleString( 'en-IN' ) + el.dataset.suffix;
-		if ( instant ) { el.textContent = fmt( to ); continue; }
+		el.textContent = fmt( to );
+		if ( instant ) continue;
+		const box = el.parentElement; box.style.minWidth = `${box.offsetWidth}px`; // reserve the final width so the counting digits don't reflow the stats row
 		const t0 = performance.now();
 		const tick = now => {
 
