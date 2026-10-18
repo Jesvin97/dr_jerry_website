@@ -337,6 +337,16 @@ html:not(.fx) .panel.has-img .portrait.crop img { position: absolute; width: var
 	html:not(.fx) .dash li:nth-child(n+5) { display: none; }
 	html:not(.fx) .cards span, html:not(.fx) .story, html:not(.fx) .press { display: none; }
 	html:not(.fx) .cards { gap: 0.9rem 1.2rem; }
-	html:not(.fx) .project:nth-of-type(n+4), html:not(.fx) .project .tech { display: none; }
+	html:not(.fx) .project .tech { display: none; }
 	html:not(.fx) #contact .copy > p:not(.eyebrow):not(.lede):not(.more) { display: none; }
+}
+
+/* phone: initiatives sit in a swipeable strip, about three screens of content with the next card peeking in */
+@media (max-width: 699px) {
+	html:not(.fx) .strip { display: flex; gap: 0.9rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 1.2rem calc(-1 * clamp(1rem, 5vw, 3rem)) 0; padding: 0 clamp(1rem, 5vw, 3rem) 0.4rem; scroll-padding-inline: clamp(1rem, 5vw, 3rem); }
+	html:not(.fx) .strip::-webkit-scrollbar { display: none; }
+	html:not(.fx) .strip .project { flex: 0 0 80%; scroll-snap-align: start; display: flex; flex-direction: column; padding: 1.3rem; border: 0; border-radius: 1rem; background: rgba(11, 31, 74, 0.045); }
+	html:not(.fx) .strip .project + .project { border-top: 0; }
+	html:not(.fx) .strip .project-body { margin-top: 0.8rem; display: flex; flex-direction: column; flex: 1; }
+	html:not(.fx) .strip .actions { margin-top: auto; padding-top: 0.8rem; }
 }

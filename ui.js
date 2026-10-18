@@ -133,7 +133,7 @@ export function buildStory( story, { fx, onDialog } ) {
 			h( 'ul', { class: 'press' }, recognitionPanel.press.map( i => h( 'li', {}, h( 'em', {}, i.source ), `: ${i.title}` ) ) ) ),
 		fx && sec( 'transition', 'panel--right', h( 'p', { class: 'eyebrow' }, 'Public service' ), h( 'h2', { id: 'transition-h', class: 'big' }, 'Impact beyond the clinic' ), h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
 		h( 'section', { id: 'work', class: 'panel panel--work', 'aria-labelledby': 'work-h' },
-			h( 'h2', { id: 'work-h', class: fx ? 'sr-only' : '' }, 'Impact beyond the clinic' ), projectEls, ! fx && h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
+			h( 'h2', { id: 'work-h', class: fx ? 'sr-only' : '' }, 'Impact beyond the clinic' ), fx ? projectEls : h( 'div', { class: 'strip', tabindex: 0, role: 'region', 'aria-label': 'Initiatives, scroll sideways for more' }, projectEls ), ! fx && h( 'p', { class: 'ctas' }, h( 'a', { class: 'text-link', href: 'service.html' }, 'Public service and vision →' ) ) ),
 		sec( 'contact', 'panel--right',
 			h( 'p', { class: 'eyebrow' }, 'Contact' ),
 			h( 'h2', { id: 'contact-h' }, contact.heading ),
