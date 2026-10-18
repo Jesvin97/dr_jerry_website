@@ -19,7 +19,9 @@ const shots = [
 	S( 0.5, 2, 0.28, - 0.03, 0.9, 0, 0.04 ),
 	S( 0.555, 2, - 0.26, - 0.03, 0.9, 0, 0 ),
 	S( 0.75, 2, - 0.26, - 0.03, 0.9, 0, 0.04 ), // expertise and recognition share one position: no slide between them
-	S( 0.84, 3, - 0.21, - 0.13, 0.78, 0, 0 ),
+	S( 0.785, 2, - 0.95, - 0.03, 0.9, 0, 0 ), // recognition: the portrait slides out to the left...
+	S( 0.79, 3, - 0.95, - 0.13, 0.78, 0, 0 ), // ...the photo is swapped while it is off screen (no overlapping poses)...
+	S( 0.86, 3, - 0.21, - 0.13, 0.78, 0, 0 ), // ...and the raised-hand portrait slides in as Impact begins
 	S( 0.925, 3, - 0.21, - 0.13, 0.78, 0, 0.05 ),
 	S( 0.975, 4, - 0.2, - 0.03, 0.85, 0, 0 ),
 	S( 1, 4, - 0.2, - 0.03, 0.85, 0, 0.05 ),

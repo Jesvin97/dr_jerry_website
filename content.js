@@ -239,9 +239,9 @@ export const scenes = [
 	{ id: 'dashboard', label: null, from: 0.42, to: 0.5, anchor: 0.46 },
 	{ id: 'expertise', label: 'Expertise', from: 0.54, to: 0.62, anchor: 0.58 },
 	{ id: 'recognition', label: 'Recognition', from: 0.66, to: 0.74, anchor: 0.7 },
-	{ id: 'transition', label: null, from: 0.78, to: 0.82, anchor: 0.8 },
+	{ id: 'transition', label: null, from: 0.79, to: 0.8, anchor: 0.795 },
 	{ id: 'work', label: 'Impact', from: 0.85, to: 0.94, anchor: 0.86 },
-	{ id: 'contact', label: 'Contact', from: 0.975, to: 1, anchor: 1 },
+	{ id: 'contact', label: 'Contact', from: 0.985, to: 1, anchor: 1 },
 ];
 
 export const WORK_RANGE = [ 0.85, 0.94 ];
