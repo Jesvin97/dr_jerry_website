@@ -1,7 +1,7 @@
 import Lenis from 'lenis';
 import { profile, portrait, projects, appointment, scenes, WORK_RANGE } from './content.js';
 import { sampleShot, waypointIndex } from './timeline.js';
-import { buildStory, buildNav, buildExtras, runCounters, createUpdater } from './ui.js';
+import { buildStory, buildNav, buildExtras, buildReach, runCounters, createUpdater } from './ui.js';
 
 const $ = id => document.getElementById( id );
 const root = document.documentElement;
@@ -62,6 +62,8 @@ if ( fx ) {
 		const projFloat = waypointIndex( ( u - 0.08 ) / 0.84, projects.length );
 		stage.update( sampleShot( p ), projFloat, p, calm ? 0 : t / 1000, calm ? { x: 0, y: 0 } : ptr );
 		update( p, projFloat );
+		reachCard.flip( ( p > 0.41 && p < 0.515 ) || ( p > 0.645 && p < 0.765 ) ); // text-left scenes: card goes right
+		reachCard.show( p > 0.46 && p < 0.955 ); // after the clinical numbers, until the Contact scene itself
 
 	};
 
@@ -86,12 +88,19 @@ if ( fx ) {
 } else {
 
 	buildNav( $( 'nav' ), { fx } );
+	// plain layout: show the card once the Expertise section has been reached, hide it at Contact (no scroll listener needed)
+	const watch = ( id, fn ) => new IntersectionObserver( es => es.forEach( e => fn( e ) ), { rootMargin: '0px 0px -30% 0px' } ).observe( $( id ) );
+	let past = false, atContact = false;
+	const refresh = () => reachCard.show( past && ! atContact );
+	watch( 'expertise', e => { if ( e.isIntersecting || e.boundingClientRect.top < 0 ) past = true; refresh(); } );
+	watch( 'contact', e => { atContact = e.isIntersecting; refresh(); } );
 	on( window, 'resize', () => { if ( canFx() ) location.reload(); } );
 
 }
 
 // First paint is ready: reveal on the next frame so nothing flashes or jumps.
 buildExtras( { appointment } );
+const reachCard = buildReach();
 requestAnimationFrame( () => requestAnimationFrame( () => {
 
 	$( 'loader' ).classList.add( 'done' );

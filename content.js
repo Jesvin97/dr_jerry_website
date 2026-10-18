@@ -201,6 +201,16 @@ export const service = {
 export const appointment = { label: 'Book appointment', href: 'https://wa.me/918590936816' };
 export const secondary = { label: 'Visit the JANANI website', href: 'https://myjanani.in' };
 
+// The "feel free to get in touch" card that slides in while scrolling. Two routes: medical, or social service.
+export const reach = {
+	title: 'Feel free to get in touch',
+	text: 'Pick one, so it reaches the right desk.',
+	options: [
+		{ label: 'Medical enquiry', note: 'Appointments and consultations', href: 'https://wa.me/918590936816?text=' + encodeURIComponent( 'Hello Dr. Jerry Mathew, I would like to ask about a medical appointment.' ) },
+		{ label: 'Social service', note: 'Foundation work, speaking, media, partnerships', href: 'mailto:drjerryortho@gmail.com?subject=' + encodeURIComponent( 'Social service and collaboration enquiry' ) },
+	],
+};
+
 export const contact = {
 	heading: 'Book an appointment.',
 	places: [

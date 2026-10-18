@@ -1,4 +1,4 @@
-import { profile, portrait, experience, projects, contact, scenes, stats, appointment, secondary, expertise, recognitionPanel, dashboard, WORK_RANGE } from './content.js';
+import { profile, portrait, experience, projects, contact, scenes, stats, appointment, secondary, expertise, recognitionPanel, dashboard, reach, WORK_RANGE } from './content.js';
 import { panelAlpha, clamp01 } from './timeline.js';
 import { portraitCanvas, projectCanvas } from './placeholders.js';
 
@@ -288,3 +288,33 @@ export function runCounters( instant, scope = document ) {
 }
 
 export { h, iconLinks };
+
+// Contact card: non-modal, dismissible, shown once per visit. show(true/false) is driven by scroll position.
+export function buildReach() {
+
+	const KEY = 'reachDismissed';
+	let dismissed = false;
+	try { dismissed = sessionStorage.getItem( KEY ) === '1'; } catch ( e ) { /* storage blocked */ }
+	const close = h( 'button', { class: 'reach-close', 'aria-label': 'Close this message' }, '✕' );
+	const el = h( 'aside', { class: 'reach', 'aria-label': 'Contact options', inert: true },
+		close,
+		h( 'p', { class: 'reach-title' }, reach.title ),
+		h( 'p', { class: 'reach-text' }, reach.text ),
+		h( 'div', { class: 'reach-options' }, reach.options.map( ( o, i ) =>
+			h( 'a', { class: i ? 'reach-opt' : 'reach-opt primary', href: o.href, target: o.href.startsWith( 'http' ) ? '_blank' : null, rel: 'noopener' },
+				h( 'strong', {}, o.label ), h( 'span', {}, o.note ) ) ) ) );
+	const dismiss = () => {
+
+		dismissed = true; set( false );
+		try { sessionStorage.setItem( KEY, '1' ); } catch ( e ) { /* storage blocked */ }
+
+	};
+	let on = false;
+	function set( v ) { on = v && ! dismissed; el.classList.toggle( 'on', on ); el.inert = ! on; }
+	close.addEventListener( 'click', dismiss );
+	el.addEventListener( 'click', e => { if ( e.target.closest( '.reach-opt' ) ) dismiss(); } );
+	el.addEventListener( 'keydown', e => { if ( e.key === 'Escape' ) dismiss(); } );
+	document.body.append( el );
+	return { show: set, flip: v => el.classList.toggle( 'flip', v ), el };
+
+}
